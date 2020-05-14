@@ -8,15 +8,16 @@ namespace ShipMysteryTextAdventure
 {
     class Clue
     {
-        private int value;
-        private string name;
-        private int charConnection;
+        int value;
+        string name;
+        string description;
+        List<Character> charConnections;
 
-        public Clue(string name, int value, int charConnection)
+        public Clue(string name, int value)
         {
             this.name = name;
             this.value = value;
-            this.charConnection = charConnection;
+            this.charConnections = new List<Character>();
         }
 
         public int GetValue()
@@ -29,9 +30,19 @@ namespace ShipMysteryTextAdventure
             return this.name;
         }
 
-        public int GetCharConnection()
+        public List<Character> GetCharConnections()
         {
-            return this.charConnection;
+            return this.charConnections;
+        }
+
+        public void setDescription(string description)
+        {
+            this.description = description;
+        }
+
+        public string getDescription()
+        {
+            return this.description;
         }
     }
 }

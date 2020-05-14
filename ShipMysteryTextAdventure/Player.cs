@@ -9,26 +9,26 @@ namespace ShipMysteryTextAdventure
     class Player
     {
         string name;
-        Dictionary<int, Item> inventory;
+        Dictionary<string, Item> inventory;
 
         public Player()
         {
-            inventory = new Dictionary<int, Item>();
+            inventory = new Dictionary<string, Item>();
         }
 
-        public void AddItem(int i)
+        public void AddItem(string name)
         {
-            inventory.Add(i, Game.GetItem(i));
+            inventory.Add(name, Game.GetItem(name));
         }
 
-        public void RemoveItem(int i)
+        public void RemoveItem(string name)
         {
-            inventory.Remove(i);
+            inventory.Remove(name);
         }
 
-        public bool HasItem(int i)
+        public bool HasItem(string name)
         {
-            return inventory.ContainsKey(i);
+            return inventory.ContainsKey(name);
         }
 
         public void SetName(string name)

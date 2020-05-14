@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Input;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,14 +14,16 @@ namespace ShipMysteryTextAdventure
         //__________________
 
         //Locations
-        public const int ROOM_NAVIGATION = 0;
-        public const int MAX_ROOM = 0;
+        public static Location navigation;
 
         //Characters
-        public const int MAX_CHAR = 0;
+        public static Character captain;
 
         //Items
-        public const int MAX_ITEM = 0;
+        public static Item shipWheel;
+
+        //Events
+
 
         //Commands
         public const int CMD_HELP = 0;
@@ -28,32 +31,37 @@ namespace ShipMysteryTextAdventure
         public const int MAX_CMD = 1;
         
 
-        public static Dictionary<int, Location> rooms;
-        public static Dictionary<int, Character> characters;
-        public static Dictionary<int, Item> items;
+        public static Dictionary<string, Location> locations;
+        public static Dictionary<string, Character> characters;
+        public static Dictionary<string, Item> items;
+
         public static Dictionary<int, string> commands;
         public static Dictionary<string, int> commandIDs;
         public static Dictionary<int, string> cmdDescriptions;
-        public static Player player;
 
+        public static Player player;
         public static Location currentRoom;
         public static bool gameRunning;
+        public static bool runClear; //Clear console before next run of game loop
 
         public static void Initialize()
         {
-            rooms = new Dictionary<int, Location>();
-            characters = new Dictionary<int, Character>();
-            items = new Dictionary<int, Item>();
+            locations = new Dictionary<string, Location>();
+            characters = new Dictionary<string, Character>();
+            items = new Dictionary<string, Item>();
             commandIDs = new Dictionary<string, int>();
             commands = new Dictionary<int, string>();
             cmdDescriptions = new Dictionary<int, string>();
             player = new Player();
 
             //Locations
+            InitLocation(navigation, new Location("navigation"));
 
             //Characters
 
             //Items
+
+            //Events
 
             //Commands
             commandIDs.Add("help", Game.CMD_HELP);
@@ -67,37 +75,14 @@ namespace ShipMysteryTextAdventure
         public static void Start()
         {
             gameRunning = true;
-            bool runClear = true;
+            runClear = true;
 
             while (gameRunning)
             {
                 Console.Write(":");
                 string input = Console.ReadLine();
-                if (commandIDs.ContainsKey(input))
-                {
-                    int cmd = -1;
-                    commandIDs.TryGetValue(input.ToLower(), out cmd);
 
-                    if (cmd == Game.CMD_HELP)
-                    {
-                        Console.WriteLine();
-                        for (int i = 0; i <= Game.MAX_CMD; i++)
-                        {
-                            string cmdName = "";
-                            string descript = "";
-                            commands.TryGetValue(i, out cmdName);
-                            cmdDescriptions.TryGetValue(i, out descript);
-                            Console.WriteLine(cmdName + " - " + descript);
-                        }
-                        Console.WriteLine();
-                        runClear = false;
-                    } else if (cmd == Game.CMD_QUIT)
-                    {
-                        gameRunning = false;
-                    }
-                }
-
-                Run();
+                Update(input);
                 
                 if (runClear)
                 {
@@ -110,42 +95,91 @@ namespace ShipMysteryTextAdventure
             }
         }
 
-        public static void Run()
+        public static void ProcessCommand(string input)
         {
+            if (commandIDs.ContainsKey(input))
+            {
+                int cmd = -1;
+                commandIDs.TryGetValue(input.ToLower(), out cmd);
 
+                if (cmd == Game.CMD_HELP)
+                {
+                    Console.WriteLine();
+                    for (int i = 0; i <= Game.MAX_CMD; i++)
+                    {
+                        string cmdName = "";
+                        string descript = "";
+                        commands.TryGetValue(i, out cmdName);
+                        cmdDescriptions.TryGetValue(i, out descript);
+                        Console.WriteLine(cmdName + " - " + descript);
+                    }
+                    Console.WriteLine();
+                    runClear = false;
+                }
+                else if (cmd == Game.CMD_QUIT)
+                {
+                    gameRunning = false;
+                }
+            }
         }
 
-        public static Location GetLocation(int l)
+        public static void Update(string input)
         {
-            Location temp = null;
-            if (rooms.ContainsKey(l))
-            {
-                rooms.TryGetValue(l, out temp);
-            }
-
-            return temp;
+            ProcessCommand(input);
         }
 
-        public static Character GetCharacter(int c)
+        public static void Typewrite(string s)
         {
-            Character temp = null;
-            if (characters.ContainsKey(c))
+            char[] temp = s.ToCharArray();
+            for (int i = 0; i < temp.Length; i++)
             {
-                characters.TryGetValue(c, out temp);
+                Console.Write(temp[i]);
+                System.Threading.Thread.Sleep(100);
             }
-
-            return temp;
         }
 
-        public static Item GetItem(int i)
+        public static void Delay(int millis)
         {
-            Item temp = null;
-            if (items.ContainsKey(i))
-            {
-                items.TryGetValue(i, out temp);
-            }
+            System.Threading.Thread.Sleep(millis);
+        }
 
-            return temp;
+        public static void InitLocation(Location l, Location created)
+        {
+            l = created;
+            locations.Add(l.GetName(), l);
+        }
+
+        public static void InitCharacter(Character c, Character created)
+        {
+            c = created;
+            characters.Add(c.GetName(), c);
+        }
+
+        public static void InitItem(Item i, Item created)
+        {
+            i = created;
+            items.Add(i.GetName(), i);
+        }
+
+        public static Location GetLocation(string s)
+        {
+            Location l = null;
+            locations.TryGetValue(s, out l);
+            return l;
+        }
+
+        public static Character GetCharacter(string s)
+        {
+            Character c = null;
+            characters.TryGetValue(s, out c);
+            return c;
+        }
+
+        public static Item GetItem(string s)
+        {
+            Item i = null;
+            items.TryGetValue(s, out i);
+            return i;
         }
 
         public static void Main(string[] args)

@@ -9,11 +9,10 @@ namespace ShipMysteryTextAdventure
     class Character
     {
         string name;
-        int id;
+        string description;
 
-        public Character(int id, string name)
+        public Character(string name)
         {
-            this.id = id;
             this.name = name;
         }
 
@@ -27,9 +26,14 @@ namespace ShipMysteryTextAdventure
             return this.name;
         }
 
-        public int GetID()
+        public void setDescription(string description)
         {
-            return this.id;
+            this.description = description;
+        }
+
+        public string getDescription()
+        {
+            return this.description;
         }
     }
 }

@@ -8,15 +8,14 @@ namespace ShipMysteryTextAdventure
 {
     class Item
     {
-        int id;
         string name;
+        string description;
         List<Clue> clues;
 
-        public Item(int id, string name)
+        public Item(string name)
         {
             clues = new List<Clue>();
-
-            this.id = id;
+            
             this.name = name;
         }
 
@@ -25,14 +24,19 @@ namespace ShipMysteryTextAdventure
             clues.Add(c);
         }
 
-        public int GetID()
-        {
-            return this.id;
-        }
-
         public string GetName()
         {
             return this.name;
+        }
+
+        public void setDescription(string description)
+        {
+            this.description = description;
+        }
+
+        public string getDescription()
+        {
+            return this.description;
         }
     }
 }
