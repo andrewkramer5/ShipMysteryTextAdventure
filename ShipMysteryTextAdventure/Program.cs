@@ -10,7 +10,7 @@ namespace ShipMysteryTextAdventure
     {
         public static void Main(string[] args)
         {
-
+            Console.WriteLine("not the yattas scoob");
         }
     }
 }
