@@ -12,15 +12,18 @@ namespace ShipMysteryTextAdventure
         Dictionary<string, Location> connectedRooms;
         Dictionary<string, Item> items;
 
+        int id;
         string roomName;
         string description;
 
-        public Location(string roomName)
+        public Location(int id, string roomName, string description)
         {
             characters = new Dictionary<string, Character>();
             connectedRooms = new Dictionary<string, Location>();
             items = new Dictionary<string, Item>();
-            
+
+            this.description = description;
+            this.id = id;
             this.roomName = roomName;
         }
 
@@ -44,14 +47,19 @@ namespace ShipMysteryTextAdventure
             return this.roomName;
         }
 
-        public void setDescription(string description)
+        public void SetDescription(string description)
         {
             this.description = description;
         }
 
-        public string getDescription()
+        public string GetDescription()
         {
             return this.description;
+        }
+
+        public int GetID()
+        {
+            return this.id;
         }
     }
 }
