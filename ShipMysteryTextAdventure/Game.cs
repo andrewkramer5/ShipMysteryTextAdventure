@@ -185,8 +185,13 @@ namespace ShipMysteryTextAdventure
                     if (valueFound)
                     {
                         Console.WriteLine(i.GetDescription());
+                        Console.ReadLine();
+                    } else
+                    {
+                        Console.WriteLine("That item isn't here.");
+                        Delay(2000);
                     }
-                    Console.ReadLine();
+                    
                 }
             }
         }
